@@ -1,10 +1,11 @@
 {
-  "name": "@elrondnetwork/elrond-pem",
-  "version": "1.0.2",
-  "description": "Small tool for generating mnemonics and ElrondNetwork compatible .pem files for validators",
-  "main": "index.js",
+  "name": "@multiversx/mx-sdk-js-pem-generator",
+  "version": "1.0.3",
+  "description": "Small tool for generating mnemonics and MultiversX compatible .pem files for validators",
+  "exports": "./index.js",
+  "type":"module",
   "bin": {
-    "elrond-pem": "index.js"
+    "mx-pem": "index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,12 +13,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@chainsafe/bls-hd-key": "^0.2.0",
-    "@elrondnetwork/erdjs": "^3.1.0",
-    "bip39": "^3.0.3",
-    "bn.js": "^5.2.0",
-    "chalk": "^4.1.0",
-    "figlet": "^1.5.0",
-    "inquirer": "^8.0.0"
+    "@chainsafe/bls-hd-key": "^0.3.0",
+    "@multiversx/sdk-wallet": "^4.3.0",
+    "bip39": "^3.1.0",
+    "bn.js": "^5.2.1",
+    "chalk": "^5.3.0",
+    "figlet": "^1.7.0",
+    "inquirer": "^9.2.15"
   }
 }

@@ -1,7 +1,7 @@
-const generateMnemonic = require('./mnemonic');
-const generatePems = require('./pem');
+import generateMnemonic from './mnemonic.js';
+import generatePems from './pem.js';
 
-module.exports = {
+export default {
   generatePems,
   generateMnemonic
 };

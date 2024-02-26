@@ -1,15 +1,15 @@
-const fs = require('fs');
-const { Mnemonic } = require("@elrondnetwork/erdjs");
+import { writeFileSync } from 'fs';
+import { Mnemonic } from "@multiversx/sdk-wallet";
 
 const generate = (filePath) => {
   const phrase = Mnemonic.generate();
 
   if ( filePath ) {
-    fs.writeFileSync(filePath, phrase.toString());
+    writeFileSync(filePath, phrase.toString());
     return;
   }
 
   console.log(phrase.toString());
 };
 
-module.exports = generate;
+export default generate;

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const figlet = require('figlet');
-const chalk = require('chalk');
+import figlet from 'figlet';
+import chalk from 'chalk';
 
 const args = process.argv.slice(2);
-const library = require('./src');
+import library from './src/index.js';
 
 const init = async (args) => {
   if ( args.length < 1 ) {

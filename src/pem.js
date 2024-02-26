@@ -1,10 +1,11 @@
-const fs = require('fs');
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 
-const BN = require('bn.js');
-const { mnemonicToSeedSync } = require("bip39");
-const { deriveMasterSK, deriveChildSKMultiple } = require("@chainsafe/bls-hd-key");
-const { Mnemonic, BLS, ValidatorSecretKey, Address } = require("@elrondnetwork/erdjs");
-const inquirer = require('inquirer');
+import BN from 'bn.js';
+import { mnemonicToSeedSync } from "bip39";
+import { deriveMasterSK, deriveChildSKMultiple } from "@chainsafe/bls-hd-key";
+import { Mnemonic, BLS, ValidatorSecretKey } from "@multiversx/sdk-wallet";
+import inquirer from 'inquirer';
+import { Console } from 'console';
 
 const HARDENED_OFFSET = 0x80000000;
 const BIP44_DERIVATION_PREFIX = "m/44'/508'/0'/";
@@ -51,11 +52,11 @@ const generate = async (count, account = 0, index = 0) => {
     outputPath = `${outputPath}/`;
   }
 
-  if ( !fs.existsSync(mnemonicPath) ) {
+  if ( !existsSync(mnemonicPath) ) {
     throw new Error(`Invalid mnemonicPath provided`);
   }
 
-  const phraseText = fs.readFileSync(mnemonicPath).toString().trim();
+  const phraseText = readFileSync(mnemonicPath).toString().trim();
   const phrase = Mnemonic.fromString(phraseText);
 
   let allValidatorKeys = ``;
@@ -67,11 +68,11 @@ const generate = async (count, account = 0, index = 0) => {
     [...key.toString('hex')].map(hexBuff => keyBuff.push(Buffer.from(hexBuff)));
 
 
-    fs.writeFileSync(`${outputPath}validator${i}.pem`, `-----BEGIN PRIVATE KEY for ${pubKey}-----\r\n${Buffer.concat(keyBuff).toString('base64')}\r\n-----END PRIVATE KEY for ${pubKey}-----`);
+    writeFileSync(`${outputPath}validator${i}.pem`, `-----BEGIN PRIVATE KEY for ${pubKey}-----\r\n${Buffer.concat(keyBuff).toString('base64')}\r\n-----END PRIVATE KEY for ${pubKey}-----`);
     allValidatorKeys = `${allValidatorKeys}-----BEGIN PRIVATE KEY for ${pubKey}-----\r\n${Buffer.concat(keyBuff).toString('base64')}\r\n-----END PRIVATE KEY for ${pubKey}-----\r\n`;
   }
 
-  fs.writeFileSync(`${outputPath}validators-all.pem`, allValidatorKeys);
+  writeFileSync(`${outputPath}validators-all.pem`, allValidatorKeys);
 };
 
 function splitPath(path) {
@@ -122,7 +123,7 @@ function generateKeys(mnemonic, count, account, index) {
 }
 
 function flipEndianness(bnBuff) {
-  const mybn = new BN(bnBuff.toString('hex'), 16, 'be');
+  const mybn = new BN(bnBuff, 16, 'be');
   return Buffer.from(mybn.toArray('le', 32));
 }
 
@@ -135,8 +136,4 @@ function blsPubKey(skeyHex) {
   return skey.generatePublicKey().hex();
 }
 
-
-
-
-
-module.exports = generate;
+export default generate;
